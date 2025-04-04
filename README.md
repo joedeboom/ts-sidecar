@@ -11,8 +11,6 @@
 - [Usage](#usage)
 - [Generated Files and Directories](#generated-files-and-directories)
 - [Additional Setup](#additional-setup)
-- [Troubleshooting](#troubleshooting)
-- [License](#license)
 
 ---
 
