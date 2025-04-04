@@ -47,6 +47,7 @@ The workflow uses [generate_sidecar.py](generate_sidecar.py) to generate all nec
     git clone https://github.com/joedeboom/ts-sidecar.git
     cd ts-sidecar
     ```
+3. Update the `DOCKER_DIR` path at the top of generate_sidecar.py to point to the directory of your choice. By default it points to `/home/joe/docker`.
 3. Run the script with the required parameters:
     ```sh
     python3 generate_sidecar.py --name SERVICE_NAME --port PORT
