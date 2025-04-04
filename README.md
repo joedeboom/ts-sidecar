@@ -6,10 +6,7 @@ Set the path to the docker directory in the main function. Then call the functio
 python3 generate_sidecar.py --name SERVICE_NAME --port PORT
 ```
 
-# NOTE
-The service you deploy must use the ts-sidecar's network:
-```
-SERVICE_NAME:
-    network_mode: "service:SERVICE_NAME-ts"
+# Additional Setup
+After the docker compose file is generated, you must enter a tailscale authentication key to add the sidecar to your tailnet. After the container is launched for the first time and authenticated, you can remove the key and comment out the line.
 
-You will also need to enter the image and map any volumes manually in the compose file.
+You will also need to enter details for the container you wish to set up regarding including the image details, volumes, and environment variables. 
