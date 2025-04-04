@@ -57,21 +57,16 @@ The workflow uses [generate_sidecar.py](generate_sidecar.py) to generate all nec
 ## Additional Setup
 
 1. **Tailscale Authentication**:  
-   After running the script and before the first launch, edit the generated Docker Compose file to include your Tailscale authentication key on the line indicated by `TS_AUTH_KEY=`.
+   After running the script, edit the generated Docker Compose file to include a Tailscale authentication key on the line indicated by `TS_AUTH_KEY=`. Once the containers are up and your sidecar has been authenticated, you can remove or comment out the authentication key line. 
    
-2. **Service Customization**:  
-   Once the containers are up and your sidecar has been authenticated, you can remove or comment out the authentication key line.  
-   Edit your service container settings in the Docker Compose file to specify the appropriate image details, volumes, and environment variables as needed.
+2. **Service Customization**:   
+   Edit your service container settings in the Docker Compose file to specify the appropriate image details, volumes, and environment variables as needed. DO NOT specify any ports in the docker compose. The internal port is specified in the generated service.json file for the tailscale sidecar to serve HTTPS to.
 
-3. **Further Configuration**:
-   - You can customize the `service.json` file within the `config` directory if additional configuration specific to your service is required.
-   - Ensure the `TS_CERT_DOMAIN` environment variable is properly set within your infrastructure to resolve certificates.
-   
 ---
 
 ## Generated Files and Directories
 
-When you run the script, the following structure will be created in your Docker directory (`/home/joe/docker`):
+When you run the script, the following structure will be created in your Docker directory (e.g. `/home/joe/docker`):
 
 ```
 /home/joe/docker/SERVICE_NAME/
