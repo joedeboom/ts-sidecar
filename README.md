@@ -22,7 +22,7 @@ This tool creates a new Tailscale sidecar container file structure that contains
 
 - A Docker Compose file which defines two services:
   - A Tailscale container (`<SERVICE_NAME>-ts`) to manage networking.
-  - The user-defined service container (`<SERVICE_NAME>`) that joins the Tailscale network via the Tailscale sidecar.
+  - A framework of the user-defined service container (`<SERVICE_NAME>`) that joins the Tailscale network via the Tailscale sidecar.
   
 - A service configuration file (`service.json`) which sets up HTTPS and proxy rules for the Tailscale sidecar.
 
@@ -42,9 +42,10 @@ The workflow uses [generate_sidecar.py](generate_sidecar.py) to generate all nec
 ## Usage
 
 1. Open your terminal.
-2. Navigate to the project directory:
+2. Clone the project directory:
     ```sh
-    cd /home/joe/projects/ts-sidecar
+    git clone https://github.com/joedeboom/ts-sidecar.git
+    cd ts-sidecar
     ```
 3. Run the script with the required parameters:
     ```sh
@@ -84,21 +85,3 @@ When you run the script, the following structure will be created in your Docker 
 3. **Further Configuration**:
    - You can customize the `service.json` file within the `config` directory if additional configuration specific to your service is required.
    - Ensure the `TS_CERT_DOMAIN` environment variable is properly set within your infrastructure to resolve certificates.
-
----
-
-## Troubleshooting
-
-- **Directory Permissions**: Make sure you have sufficient permissions to create directories and files in the specified Docker directory.
-- **Python Errors**: Verify that you're using Python 3.x as the script may not be compatible with Python 2.x.
-- **Docker Compose Issues**: If the Docker Compose file doesn't work as expected, double-check the generated service names and network configuration.
-
----
-
-## License
-
-This project is provided under the MIT License. See the [LICENSE](LICENSE) file for more details.
-
----
-
-Happy containerizing!
