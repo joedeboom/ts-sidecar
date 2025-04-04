@@ -62,6 +62,12 @@ The workflow uses [generate_sidecar.py](generate_sidecar.py) to generate all nec
 2. **Service Customization**:   
    Edit your service container settings in the Docker Compose file to specify the appropriate image details, volumes, and environment variables as needed. DO NOT specify any ports in the docker compose. The internal port is specified in the generated service.json file for the tailscale sidecar to serve HTTPS to.
 
+3. **Launch Containers**
+    Launch the docker stack. In the service's directory:
+    ```
+    docker compose up -d
+    ```
+
 ---
 
 ## Generated Files and Directories
