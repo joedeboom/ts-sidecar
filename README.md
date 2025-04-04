@@ -9,8 +9,8 @@
 - [Overview](#overview)
 - [Prerequisites](#prerequisites)
 - [Usage](#usage)
-- [Generated Files and Directories](#generated-files-and-directories)
 - [Additional Setup](#additional-setup)
+- [Generated Files and Directories](#generated-files-and-directories)
 
 ---
 
@@ -54,6 +54,21 @@ The workflow uses [generate_sidecar.py](generate_sidecar.py) to generate all nec
 
 ---
 
+## Additional Setup
+
+1. **Tailscale Authentication**:  
+   After running the script and before the first launch, edit the generated Docker Compose file to include your Tailscale authentication key on the line indicated by `TS_AUTH_KEY=`.
+   
+2. **Service Customization**:  
+   Once the containers are up and your sidecar has been authenticated, you can remove or comment out the authentication key line.  
+   Edit your service container settings in the Docker Compose file to specify the appropriate image details, volumes, and environment variables as needed.
+
+3. **Further Configuration**:
+   - You can customize the `service.json` file within the `config` directory if additional configuration specific to your service is required.
+   - Ensure the `TS_CERT_DOMAIN` environment variable is properly set within your infrastructure to resolve certificates.
+   
+---
+
 ## Generated Files and Directories
 
 When you run the script, the following structure will be created in your Docker directory (`/home/joe/docker`):
@@ -69,18 +84,3 @@ When you run the script, the following structure will be created in your Docker 
 
 - The [`generate_docker_compose`](generate_sidecar.py#L8) function generates the Docker Compose file.
 - The [`generate_service_json`](generate_sidecar.py#L50) function generates the `service.json`.
-
----
-
-## Additional Setup
-
-1. **Tailscale Authentication**:  
-   After running the script and before the first launch, edit the generated Docker Compose file to include your Tailscale authentication key on the line indicated by `TS_AUTH_KEY=`.
-   
-2. **Service Customization**:  
-   Once the containers are up and your sidecar has been authenticated, you can remove or comment out the authentication key line.  
-   Edit your service container settings in the Docker Compose file to specify the appropriate image details, volumes, and environment variables as needed.
-
-3. **Further Configuration**:
-   - You can customize the `service.json` file within the `config` directory if additional configuration specific to your service is required.
-   - Ensure the `TS_CERT_DOMAIN` environment variable is properly set within your infrastructure to resolve certificates.
