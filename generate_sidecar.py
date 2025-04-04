@@ -3,6 +3,7 @@ import sys
 import argparse
 
 
+DOCKER_DIR = "/home/joe/docker"
 
 
 def generate_docker_compose(name, service_dir):
@@ -76,8 +77,6 @@ def generate_service_json(name, config_dir, port):
 
 
 if __name__ == "__main__":
-    DOCKER_DIR = "/home/joe/docker"
-
     # Fetch service name from command line arguments
     parser = argparse.ArgumentParser(description="Generate a Docker Compose file for Tailscale.")
     parser.add_argument(
