@@ -11,3 +11,5 @@ The service you deploy must use the ts-sidecar's network:
 ```
 SERVICE_NAME:
     network_mode: "service:SERVICE_NAME-ts"
+
+You will also need to enter the image and map any volumes manually in the compose file.

@@ -16,21 +16,31 @@ def generate_docker_compose(name, service_dir):
         image: tailscale/tailscale:latest
         hostname: {name}
         cap_add:
-        - NET_ADMIN
-        - SYS_MODULE
+            - NET_ADMIN
+            - SYS_MODULE
         volumes:
-        - /dev/net/tun:/dev/net/tun
-        - {service_dir}/tailscale/ts-state:/var/lib/tailscale
-        - {service_dir}/tailscale/config:/config
+            - /dev/net/tun:/dev/net/tun
+            - {service_dir}/tailscale/ts-state:/var/lib/tailscale
+            - {service_dir}/tailscale/config:/config
         environment:
-        # https://github.com/tailscale/tailscale/issues/4913#issuecomment-1186402307
-        # we have to tell the container to put the state in the same folder
-        # that way the state is saved on the host and survives reboot of the container
-        - TS_STATE_DIR=/var/lib/tailscale
-        # this have to be used only on the first time
-        # after that, the state is saved in /var/lib/tailscale and the next line can be commented out
-        - TS_AUTH_KEY=
-        - TS_SERVE_CONFIG=/config/service.json
+            # https://github.com/tailscale/tailscale/issues/4913#issuecomment-1186402307
+            # we have to tell the container to put the state in the same folder
+            # that way the state is saved on the host and survives reboot of the container
+            - TS_STATE_DIR=/var/lib/tailscale
+            # this have to be used only on the first time
+            # after that, the state is saved in /var/lib/tailscale and the next line can be commented out
+            - TS_AUTH_KEY=
+            - TS_SERVE_CONFIG=/config/service.json
+        restart: unless-stopped
+
+    {name}:
+        image:
+        container_name: {name}
+        network_mode: "service:{name}-ts"
+        environment:
+            - TZ=America/Chicago
+        depends_on:
+            - {name}-ts
         restart: unless-stopped
 
     """
