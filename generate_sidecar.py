@@ -91,11 +91,26 @@ if __name__ == "__main__":
         required=True,
         help="Port of the Tailscale service.",
     )
+    parser.add_argument(
+        "--docker-dir",
+        type=str,
+        default=DOCKER_DIR,
+        help="Directory where the Docker Compose file will be generated.",
+    )
+    parser.add_argument(
+        "--auth-key",
+        type=str,
+        default="",
+        help="Tailscale auth key.",
+    )
     # Parse args after all arguments have been added
     args = parser.parse_args()
     name = args.name
     port = args.port
+    DOCKER_DIR = args.docker_dir
+    auth_key = args.auth_key
 
+    
     # Make folders for the service in the docker directory
     service_dir = os.path.join(DOCKER_DIR, name)
     tailscale_dir = os.path.join(service_dir, "tailscale")

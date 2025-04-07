@@ -20,11 +20,10 @@ This tool creates a new Tailscale sidecar container file structure that contains
 
 - A Docker Compose file which defines two services:
   - A Tailscale container (`<SERVICE_NAME>-ts`) to manage networking.
-  - A framework of the user-defined service container (`<SERVICE_NAME>`) that joins the Tailscale network via the Tailscale sidecar.
+  - A framework of the user-defined service container (`<SERVICE_NAME>`) whose network is defined to use Tailscale sidecar's service, making your container accessible to your tailnet.
   
-- A service configuration file (`service.json`) which sets up HTTPS and proxy rules for the Tailscale sidecar.
+- A service configuration file (`service.json`) which sets up  proxy rules for the Tailscale sidecar to serve HTTPS to the container's internal port. 
 
-The workflow uses [generate_sidecar.py](generate_sidecar.py) to generate all necessary files and creates the proper folder structure in your Docker directory.
 
 ---
 
@@ -32,8 +31,12 @@ The workflow uses [generate_sidecar.py](generate_sidecar.py) to generate all nec
 
 - Python 3.x installed.
 - Docker installed.
-- A working Tailscale setup.
-- The path to your Docker directory correctly set inside the [generate_sidecar.py](generate_sidecar.py) file (currently set to `/home/joe/docker`).
+
+### The script takes 4 arguments
+- The **name** of the service you wish to add to your tailnet.
+- An **authentication key** to add a node to your tailnet.
+- The **internal port** the container is expecting to be served HTTPS to.
+- The **path** to your docker directory
 
 ---
 
@@ -45,19 +48,21 @@ The workflow uses [generate_sidecar.py](generate_sidecar.py) to generate all nec
     git clone https://github.com/joedeboom/ts-sidecar.git
     cd ts-sidecar
     ```
-3. Update the `DOCKER_DIR` path at the top of generate_sidecar.py to point to the directory of your choice. By default it points to `/home/joe/docker`.
 3. Run the script with the required parameters:
+```
     ```sh
-    python3 generate_sidecar.py --name SERVICE_NAME --port PORT
+    python3 generate_sidecar.py --name SERVICE_NAME --port PORT --docker-dir PATH_TO_DIR --auth-key TAILSCALE_AUTH_KEY
     ```
-   Replace `SERVICE_NAME` with the name of the service/node to be added to your tailnet and `PORT` with your service's internal port for HTTPS redirection.
+```
+
+Replace `SERVICE_NAME` with the name of the service/node to be added to your tailnet and `PORT` with your service's internal port for HTTPS redirection. Replace `PATH_TO_DIR` with the path to your docker folder. Replace `TAILSCALE_AUTH_KEY` with an authentication key frojm github. 
 
 ---
 
 ## Additional Setup
 
 1. **Tailscale Authentication**:  
-   After running the script, edit the generated Docker Compose file to include a Tailscale authentication key on the line indicated by `TS_AUTH_KEY=`. Once the containers are up and your sidecar has been authenticated, you can remove or comment out the authentication key line. 
+    Once the containers are up and your sidecar has been authenticated, you can remove or comment out the authentication key line from the docker compose file.
    
 2. **Service Customization**:   
    Edit your service container settings in the Docker Compose file to specify the appropriate image details, volumes, and environment variables as needed. DO NOT specify any ports in the docker compose. The internal port is specified in the generated service.json file for the tailscale sidecar to serve HTTPS to.
@@ -85,3 +90,10 @@ When you run the script, the following structure will be created in your Docker 
 
 - The [`generate_docker_compose`](generate_sidecar.py#L8) function generates the Docker Compose file.
 - The [`generate_service_json`](generate_sidecar.py#L50) function generates the `service.json`.
+
+---
+
+## Roadmap
+- Have auth key as command line argument.
+- Have path to docker folder as command line argument.
+- 
